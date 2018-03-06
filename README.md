@@ -69,7 +69,7 @@ Request Payload :
 
 Success Response - Http 201 (Created)
 {
- "empId" : "E0000001"
+ "empId" : 5123
  }
 
  Error Response - Http 422 (Unprocessable)
@@ -100,7 +100,7 @@ Request Payload :
 
 Success Response - Http 201 (Created)
 {
- "teamId" : "T0000001"
+ "teamId" : 765324
  }
 
 ```
@@ -118,7 +118,7 @@ Success Response - Http 200 (OK)
  "employees" :
     [
     {
-      "empId" : "E0000001",
+      "empId" : 127653,
       "firstName" : "Shah",
       "lastName" : "Bagdadi",
       },
@@ -144,7 +144,7 @@ PATCH   /v1/hr/team/<team_id>
 PUT   /v1/hr/team/<team_id>
 Request Payload :
 {
-"employees" : ["E000001" , "E000002"]
+"employees" : [6753 , 876823]
 }
 
 Success Response - Http 204 (OK)
@@ -156,7 +156,7 @@ Error Response - Http 422 (Unprocessable)
     [
     {
       "code" : 4003,
-      "id" : "E000001",
+      "id" : 876823,
       "description" : "Employee does not exists",
       }
      ]
