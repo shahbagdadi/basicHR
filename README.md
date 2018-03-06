@@ -62,14 +62,14 @@ The DBMS ERD for the basic functionality above is as shown below.
 POST   /v1/hr/employee
 Request Payload :
 {
-"user_id" : "sbagdadi",
-"first_name" : "Shah",
-"last_name" : "Bagdadi"
+"userId" : "sbagdadi",
+"firstName" : "Shah",
+"lastName" : "Bagdadi"
 }
 
 Success Response - Http 201 (Created)
 {
- "emp_id" : "E0000001"
+ "empId" : "E0000001"
  }
 
  Error Response - Http 422 (Unprocessable)
@@ -78,12 +78,12 @@ Success Response - Http 201 (Created)
     [
     {
       "code" : 4001,
-      "id" : "user_id",
-      "description" : "user_id already exists",
+      "id" : "userId",
+      "description" : "userId already exists",
       },
      { "code" : 4002,
-       "id" : "first_name",
-       "description" : "first_name cannot be blank",
+       "id" : "firstName",
+       "description" : "firstName cannot be blank",
      }
      ]
  }
@@ -100,13 +100,14 @@ Request Payload :
 
 Success Response - Http 201 (Created)
 {
- "team_id" : "T0000001"
+ "teamId" : "T0000001"
  }
 
 ```
 
 #### LIST all Employees
-This end point will only return 10 records by default. The endpoint can be passed optional query paramters
+This end point will only return 10 records by default.
+The endpoint can be passed optional query paramters
 page - The page to return
 per_pages - The number of records per page.
 ```
@@ -117,17 +118,17 @@ Success Response - Http 200 (OK)
  "employees" :
     [
     {
-      "emp_id" : "E0000001",
-      "first_name" : "Shah",
-      "last_name" : "Bagdadi",
+      "empId" : "E0000001",
+      "firstName" : "Shah",
+      "lastName" : "Bagdadi",
       },
     {
-      "emp_id" : "Mayank",
-      "first_name" : "Kumar",
-      "last_name" : "Bagdadi",
+      "empId" : "Mayank",
+      "firstName" : "Kumar",
+      "lastName" : "Bagdadi",
       }
      ],
-  "total_records" : 2
+  "totalRecords" : 2
  }
 
 ```
@@ -162,3 +163,10 @@ Error Response - Http 422 (Unprocessable)
  }
 ```
 
+### Developer Notes
+1. To run the program install mysql
+2. git clone the repo
+3. Change the mysql username and password in the application.properties
+4. cd hr
+5. mvn spring-boot:run 
+6. Use a rest client like postman to make API calls as per the design above.
