@@ -108,8 +108,8 @@ Success Response - Http 201 (Created)
 #### LIST all Employees
 This end point will only return 10 records by default.
 The endpoint can be passed optional query paramters
-page - The page to return
-per_pages - The number of records per page.
+page - The page to return  
+per_pages - The number of records per page.  
 ```
 GET   /v1/hr/employee?page=N&per_page=M
 
@@ -135,9 +135,9 @@ Success Response - Http 200 (OK)
 
 
 #### Assign Team
-This endpoint will support both http PUT and PATCH verb.
-PUT - Will replace the current list of employees in the team with the employees in the input request
-PATCH - Will all the employee in the input request to the current list of employees in the team.
+This endpoint will support both http PUT and PATCH verb.  
+PUT - Will replace the current list of employees in the team with the employees in the input request  
+PATCH - Will all the employee in the input request to the current list of employees in the team.  
 
 ```
 PATCH   /v1/hr/team/<team_id>
