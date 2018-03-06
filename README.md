@@ -8,7 +8,7 @@ We are building a basic HR management system. We need the following pieces of fu
 3. A user should be able to create a team
 4. A user should be able to assign employees to teams
 
-## Clarifying Requirement Questions/ Assumptions Made
+## Clarifying Requirement Questions
 
 1. How many employees should the system be able to handle.?  
 Assumptions : [The worlds largest employers](https://en.wikipedia.org/wiki/List_of_largest_employers) aka defence
@@ -25,7 +25,7 @@ who can perform administrative functions. For the purpose of this exercise we wi
 
 4. How will users interface with the system ?  
 Assumption : Typically employees would be using a web portal or mobile app to interface with the system.
-The scope of this exercise we be limited to exposing RESTful API's which will be consumed by the web portal or mobile app.
+The scope of this exercise we be limited to exposing RESTful API's which will be consumed by the web portal and/or mobile app.
 
 5. How will users be authenticated ?  
 Assumption: Typically HR system support Single Sign On (using openid , SAML, OAuth) and are authenticated/authorized against
@@ -37,7 +37,7 @@ Assumptions : HR systems typically fall under compliance regulations (SOC, PII, 
 Sensitive data is encrypted over the wire and at rest. No encryption wil be enforced as part of this coding exercise.
 
 7. SLA requirements ?  
-Assumption : 99% uptime which give yearly down time of 8h 45m 57.0s
+Assumption : 99% uptime which gives yearly down time of 8h 45m 57.0s
 
 
 ## Technical Design Considerations
@@ -47,8 +47,8 @@ The desirable features for data storage systems for such a system is one which
 provides consistency, durability, atomicity and isolation. Hence we will design a system which uses an RDBMS like
 Oracle , MySQL or Postgres. HRMS systems for employeer's with 3 million employees, a NoSQL database like Dynamodb or Cassandra could be considered.
 Since the application seems read heavy (list employees, list teams) we will have multiple read slave instances and a single master for writes.
-The slave can be promoted to master in case the master fails.
-In cases where the application is write intensive as well we may have to come up with other scaling/sharding strategies.
+The slave can be promoted to master in case the master fails (This may work for an SLA of 99% but not higher).
+In cases where the application is write intensive as well, we may have to come up with other scaling/sharding strategies.
 For performance data can also be cached in a distributed cache like Redis or Memchache
 
 The DBMS ERD for the basic functionality above is as shown below.
@@ -57,6 +57,108 @@ The DBMS ERD for the basic functionality above is as shown below.
 
 ### API layer
 
+#### Create Employee
+```
+POST   /v1/hr/employee
+Request Payload :
+{
+"user_id" : "sbagdadi",
+"first_name" : "Shah",
+"last_name" : "Bagdadi"
+}
+
+Success Response - Http 201 (Created)
+{
+ "emp_id" : "E0000001"
+ }
+
+ Error Response - Http 422 (Unprocessable)
+ {
+ "errors" :
+    [
+    {
+      "code" : 4001,
+      "id" : "user_id",
+      "description" : "user_id already exists",
+      },
+     { "code" : 4002,
+       "id" : "first_name",
+       "description" : "first_name cannot be blank",
+     }
+     ]
+ }
+```
 
 
+#### Create Team
+```
+POST   /v1/hr/team
+Request Payload :
+{
+ "name" : "Tiger Team"
+}
+
+Success Response - Http 201 (Created)
+{
+ "team_id" : "T0000001"
+ }
+
+```
+
+#### LIST all Employees
+This end point will only return 10 records by default. The endpoint can be passed optional query paramters
+page - The page to return
+per_pages - The number of records per page.
+```
+GET   /v1/hr/employee?page=N&per_page=M
+
+Success Response - Http 200 (OK)
+{
+ "employees" :
+    [
+    {
+      "emp_id" : "E0000001",
+      "first_name" : "Shah",
+      "last_name" : "Bagdadi",
+      },
+    {
+      "emp_id" : "Mayank",
+      "first_name" : "Kumar",
+      "last_name" : "Bagdadi",
+      }
+     ],
+  "total_records" : 2
+ }
+
+```
+
+
+#### Assign Team
+This endpoint will support both http PUT and PATCH verb.
+PUT - Will replace the current list of employees in the team with the employees in the input request
+PATCH - Will all the employee in the input request to the current list of employees in the team.
+
+```
+PATCH   /v1/hr/team/<team_id>
+PUT   /v1/hr/team/<team_id>
+Request Payload :
+{
+"employees" : ["E000001" , "E000002"]
+}
+
+Success Response - Http 204 (OK)
+
+
+Error Response - Http 422 (Unprocessable)
+ {
+ "errors" :
+    [
+    {
+      "code" : 4003,
+      "id" : "E000001",
+      "description" : "Employee does not exists",
+      }
+     ]
+ }
+```
 
