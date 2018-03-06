@@ -49,11 +49,14 @@ Oracle , MySQL or Postgres. HRMS systems for employeer's with 3 million employee
 Since the application seems read heavy (list employees, list teams) we will have multiple read slave instances and a single master for writes.
 The slave can be promoted to master in case the master fails.
 In cases where the application is write intensive as well we may have to come up with other scaling/sharding strategies.
-
 For performance data can also be cached in a distributed cache like Redis or Memchache
+
+The DBMS ERD for the basic functionality above is as shown below.
+![ERD](./basicHR.jpg)
 
 
 ### API layer
+
 
 
 
