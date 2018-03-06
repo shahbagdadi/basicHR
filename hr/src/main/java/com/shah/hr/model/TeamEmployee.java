@@ -4,27 +4,27 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import java.util.*;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 
 @Entity
-@Table(name = "team")
+@Table(name = "teamEmployee")
 @EntityListeners(AuditingEntityListener.class)
 @JsonIgnoreProperties(value = {"createdAt", "updatedAt"},
         allowGetters = true)
-public class Team {
+public class TeamEmployee {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long teamId;
+    private Long id;
 
-    @NotBlank
-    private String name;
 
-    @OneToMany(mappedBy = "teamId", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<TeamEmployee> teamEmployees = new ArrayList();
+    private String empId;
+
+
+    private String teamId;
 
     @Column(nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -36,29 +36,28 @@ public class Team {
     @LastModifiedDate
     private Date updatedAt;
 
-    public Long getTeamId() {
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
+    }
+
+    public String getTeamId() {
         return teamId;
     }
 
-    public void setTeamId(Long teamId) {
+    public void setTeamId(String teamId) {
         this.teamId = teamId;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    
-    public List<TeamEmployee> getTeamEmployees() {
-        return teamEmployees;
-    }
-
-    public void setTeamEmployees(List<TeamEmployee> teamEmployees) {
-        this.teamEmployees = teamEmployees;
     }
 }

@@ -22,6 +22,13 @@ public class EmployeeController {
     @GetMapping("/employee")
     public List<Employee> getAllEmployee() {
         return employeeRepository.findAll();
+        // TODO : Support pagination .. something like below using a variable page we receive here
+        // Query query = entityManager.createQuery("From Employee");
+        // int pageNumber = page;
+        // int pageSize = 10;
+        // query.setFirstResult((pageNumber-1) * pageSize); 
+        // query.setMaxResults(pageSize);
+        // List<Employee> employeeList = query.getResultList();
     }
 
     @PostMapping("/employee")

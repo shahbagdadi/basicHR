@@ -164,7 +164,7 @@ Error Response - Http 422 (Unprocessable)
 ```
 
 ### Developer Notes
-1. To run the program install mysql
+1. To run the program install mysql and maven
 2. git clone the repo
 3. Change the mysql username and password in the application.properties
 4. cd hr
